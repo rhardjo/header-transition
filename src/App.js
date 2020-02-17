@@ -1,5 +1,15 @@
 import React from 'react';
 
-const App = () => <div>Een opzetje voor de app</div>;
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Content from './components/Content';
+
+const App = () => (
+  <React.Fragment>
+    <Header />
+    <Hero />
+    <Content />
+  </React.Fragment>
+);
 
 export default App;
