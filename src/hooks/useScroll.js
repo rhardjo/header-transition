@@ -1,24 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import throttle from 'lodash.throttle';
 
-/** Returnt de y position van je window. */
 const useScroll = () => {
-  const [scroll, setScroll] = useState(0);
-  const scrollHandler = throttle(() => {
-    scroll !== window.scrollY && setScroll(window.scrollY); // Alleen updaten als de waarde anders is
-  }, 150);
+  // Hooks
+  const [scroll, setScroll] = useState(window.scrollY);
+  const [scrollDirection, setScrollDirection] = useState(window.scrollY);
+
+  const calculateScroll = () => {
+    // Alleen updaten bij een verschil
+    if (scroll !== window.scrollY) {
+      setScroll((prevState) => {
+        // setScroll onthoud zijn laatste positie, hiermee berekenen we welke richting er wordt gescrolld
+        const direction = prevState > window.scrollY ? 'up' : 'down';
+        if (scrollDirection !== direction) setScrollDirection(direction);
+
+        return window.scrollY;
+      });
+    }
+  };
+
+  const scrollHandler = useCallback(throttle(calculateScroll, 300, { leading: false }, [setScroll]));
 
   useEffect(() => {
     window.addEventListener('scroll', scrollHandler);
 
-    scrollHandler(); // Afvuren tijdens mounting om scroll positie te checken na bijv. reload
-
-    return () => {
-      window.removeEventListener('scroll', scrollHandler);
-    };
+    return () => window.removeEventListener('scroll', scrollHandler); // Cleanup na unmounting
   });
 
-  return Number.parseInt(scroll);
+  return {
+    scrollPosition: Number.parseInt(scroll), // Scroll registreert soms floats
+    scrollDirection,
+  };
 };
 
 export default useScroll;
