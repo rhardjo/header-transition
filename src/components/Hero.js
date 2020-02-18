@@ -1,7 +1,11 @@
 import React from 'react';
 
-import './Hero.pcss';
-
-const Hero = () => <div className="Hero" />;
+const Hero = ({ height }) => {
+  const heroStyle = {
+    height: `${height}px`,
+    backgroundImage: `url(https://picsum.photos/1920/${height})`,
+  };
+  return <div className="w-full bg-cover bg-no-repeat" style={heroStyle} />;
+};
 
 export default Hero;
