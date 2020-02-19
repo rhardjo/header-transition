@@ -21,8 +21,8 @@ const Menu = ({ items, isOpen, isButtonVisible, handleToggleMenu }) => {
       <nav className={navClassname}>
         {isOpen &&
           items.map((item, key) => (
-            <button className="Menu__item" key={key}>
-              {item}
+            <button className={cn('Menu__item', { 'Menu__item--selected': item.isSelected })} key={key}>
+              {item.value}
             </button>
           ))}
       </nav>
