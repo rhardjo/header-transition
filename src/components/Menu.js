@@ -1,8 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 
-import CloseIcon from '../assets/svg/ico-close.svg';
-import MenuIcon from '../assets/svg/ico-menu.svg';
+import CloseIcon from '../statics/svg/ico-close.svg';
+import MenuIcon from '../statics/svg/ico-menu.svg';
 
 import './Menu.pcss';
 

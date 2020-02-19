@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 
-// Styling
-import './Header.pcss';
-
-// Components
-import Menu from './Menu.js';
-
+import { MENU_ITEMS, NAME_LOGO } from '../statics/constants';
 import useScroll from '../hooks/useScroll';
 
-// Constants
-const MENU_ITEMS = ['Lorem', 'Ipsum', 'Dolor', 'Sit', 'Amet', 'Consectetur'];
-const NAME_LOGO = 'Dolorem';
+// Styling
+import './Header.pcss';
+// Components
+import Menu from './Menu';
 
 const Header = ({ offset }) => {
   // State hooks
