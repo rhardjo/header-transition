@@ -4,27 +4,27 @@ import throttle from 'lodash.throttle';
 const useScroll = () => {
   // Hooks
   const [scroll, setScroll] = useState(window.scrollY);
-  const [scrollDirection, setScrollDirection] = useState(window.scrollY);
+  const [scrollDirection, setScrollDirection] = useState('up');
+
+  const calculateDirection = () => {
+    const direction = scroll > window.scrollY ? 'up' : 'down';
+    if (scrollDirection !== direction) setScrollDirection(direction);
+  };
 
   const calculateScroll = () => {
     // Alleen updaten bij een verschil
     if (scroll !== window.scrollY) {
-      setScroll((prevState) => {
-        // setScroll onthoud zijn laatste positie, hiermee berekenen we welke richting er wordt gescrolld
-        const direction = prevState > window.scrollY ? 'up' : 'down';
-        if (scrollDirection !== direction) setScrollDirection(direction);
-
-        return window.scrollY;
-      });
+      setScroll(window.scrollY);
+      calculateDirection();
     }
   };
 
-  const scrollHandler = useCallback(throttle(calculateScroll, 300, { leading: false }, [setScroll]));
+  const handleScroll = useCallback(throttle(calculateScroll, 300, { leading: false }, [])); // Voorkom redeclaring bij re-render
 
   useEffect(() => {
-    window.addEventListener('scroll', scrollHandler);
+    window.addEventListener('scroll', handleScroll);
 
-    return () => window.removeEventListener('scroll', scrollHandler); // Cleanup na unmounting
+    return () => window.removeEventListener('scroll', handleScroll); // Cleanup na unmounting
   });
 
   return {

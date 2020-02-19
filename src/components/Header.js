@@ -4,7 +4,6 @@ import cn from 'classnames';
 // Components
 import Menu from './Menu.js';
 
-// Hooks
 import useScroll from '../hooks/useScroll';
 
 // Constants
@@ -12,21 +11,34 @@ const MENU_ITEMS = ['Lorem', 'Ipsum', 'Dolor', 'Sit', 'Amet', 'Consectetur'];
 const NAME_LOGO = 'Dolorem';
 
 const Header = ({ offset }) => {
+  // State hooks
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [isPastOffset, setIsPastOffset] = useState(false);
-  const { scrollPosition, scrollDirection } = useScroll();
-
+  const [isScrolledUp, setIsScrolledUp] = useState(true);
   const handleToggleMenu = () => setIsMenuOpen((prevValue) => !prevValue);
+
+  // Functional hooks
+  const { scrollPosition, scrollDirection } = useScroll();
 
   useEffect(() => {
     const calculatedOffset = scrollPosition >= offset;
-    if (calculatedOffset !== isPastOffset) {
-      setIsPastOffset(calculatedOffset);
-    }
-  });
+    const calculateIsUp = scrollDirection === 'up';
+
+    // Alleen updaten als de waarde veranderd
+    if (isScrolledUp !== calculateIsUp) setIsScrolledUp(calculateIsUp);
+    if (calculatedOffset !== isPastOffset) setIsPastOffset(calculatedOffset);
+  }, [scrollPosition, scrollDirection]);
+
+  useEffect(() => {
+    if (isPastOffset === false) setIsMenuOpen(true); // Menu willen we altijd zichtbaar bij de hero
+  }, [isPastOffset]);
+
+  useEffect(() => {
+    setIsMenuOpen(isScrolledUp); // Vuur eenmaal af bij elke change, hierdoor kun je nog togglen met de button
+  }, [isScrolledUp]);
 
   const headerClassname = cn(
-    'px-10 py-5 w-full flex justify-between items-center fixed transition-colors duration-100 ease-in-out',
+    'px-10 py-5 w-full flex justify-between items-center fixed transition-colors duration-150',
     {
       'bg-gray-800': isPastOffset && isMenuOpen,
       'bg-transparent': !isPastOffset && !isMenuOpen,
@@ -37,10 +49,6 @@ const Header = ({ offset }) => {
     'text-black': isPastOffset && !isMenuOpen,
     'text-white': !isPastOffset || isMenuOpen,
   });
-
-  // className={`text-3xl font-black transition-colors duration-200 ${
-  //   isPastOffset && !isMenuOpen ? 'text-black' : 'text-white'
-  // }`}
 
   return (
     <header className={headerClassname}>
