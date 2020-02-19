@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 
+// Styling
+import './Header.pcss';
+
 // Components
 import Menu from './Menu.js';
 
@@ -20,10 +23,10 @@ const Header = ({ offset }) => {
   // Functional hooks
   const { scrollPosition, scrollDirection } = useScroll();
 
+  // Updates
   useEffect(() => {
     const calculatedOffset = scrollPosition >= offset;
     const calculateIsUp = scrollDirection === 'up';
-
     // Alleen updaten als de waarde veranderd
     if (isScrolledUp !== calculateIsUp) setIsScrolledUp(calculateIsUp);
     if (calculatedOffset !== isPastOffset) setIsPastOffset(calculatedOffset);
@@ -37,15 +40,13 @@ const Header = ({ offset }) => {
     setIsMenuOpen(isScrolledUp); // Vuur eenmaal af bij elke change, hierdoor kun je nog togglen met de button
   }, [isScrolledUp]);
 
-  const headerClassname = cn(
-    'px-10 py-5 w-full flex justify-between items-center fixed transition-colors duration-150',
-    {
-      'bg-gray-800': isPastOffset && isMenuOpen,
-      'bg-transparent': !isPastOffset && !isMenuOpen,
-    }
-  );
+  // CSS classes
+  const headerClassname = cn('Header', {
+    'bg-gray-800': isPastOffset && isMenuOpen,
+    'bg-transparent': !isPastOffset && !isMenuOpen,
+  });
 
-  const logoClassname = cn('text-3xl font-black uppercase transition-colors duration-200', {
+  const logoClassname = cn('Header__logo', {
     'text-black': isPastOffset && !isMenuOpen,
     'text-white': !isPastOffset || isMenuOpen,
   });

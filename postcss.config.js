@@ -1,8 +1,9 @@
 const tailwindcss = require('tailwindcss');
+const nestedcss = require('postcss-nested');
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 
-const plugins = [tailwindcss];
+const plugins = [tailwindcss, nestedcss];
 
 if (!IS_DEV) {
   const purgecss = require('@fullhuman/postcss-purgecss');

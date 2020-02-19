@@ -5,14 +5,13 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "start": "NODE_ENV=development parcel src/index.html",
+    "build": "NODE_ENV=production parcel build src/index.html"
   },
   "dependencies": {
     "@svgr/parcel-plugin-svgr": "^5.1.0",
     "classnames": "^2.2.6",
     "lodash.throttle": "^4.1.1",
-    "postcss-modules": "^1.5.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "tailwindcss": "^1.2.0"
@@ -23,6 +22,7 @@
     "@babel/preset-react": "^7.8.3",
     "@fullhuman/postcss-purgecss": "^2.0.6",
     "autoprefixer": "^9.7.4",
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "postcss-nested": "^4.2.1"
   }
 }

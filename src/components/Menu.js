@@ -7,21 +7,21 @@ import MenuIcon from '../assets/svg/ico-menu.svg';
 import './Menu.pcss';
 
 const Menu = ({ items, isOpen, isButtonVisible, handleToggleMenu }) => {
-  const navClassname = cn('flex justify-end', {
-    'opacity-100': isOpen,
-    'opacity-0': !isOpen,
+  const navClassname = cn('Menu__navigation', {
+    'Menu__navigation--visible': isOpen,
+    'Menu__navigation--hidden': !isOpen,
   });
-  const buttonClassname = cn('transition-all duration-150 h-12 rounded-sm text-white flex-none outline-none', {
-    'w-0 opacity-0': !isButtonVisible,
-    'w-12 ml-10 opacity-100 bg-gray-800': isButtonVisible,
+  const buttonClassname = cn('Menu__toggle', {
+    'Menu__toggle--visible': isButtonVisible,
+    'Menu__toggle--hidden': !isButtonVisible,
   });
 
   return (
-    <div className="inline-flex items-center">
+    <div className="Menu">
       <nav className={navClassname}>
         {isOpen &&
           items.map((item, key) => (
-            <button className="ml-16 text-lg font-bold tracking-wider text-white" key={key}>
+            <button className="Menu__item" key={key}>
               {item}
             </button>
           ))}

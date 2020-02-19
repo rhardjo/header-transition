@@ -1,9 +1,42 @@
-.Menu__icon {
-  @apply fill-current m-auto;
-}
-.Menu__icon--close {
-  @apply w-4 h-4;
-}
-.Menu__icon--burger {
-  @apply w-6 h-6;
+.Menu {
+  display: inline-flex;
+  align-items: center;
+
+  &__navigation {
+    display: flex;
+    justify-content: flex-end;
+    &--visible {
+      opacity: 1;
+    }
+    &--hidden {
+      opacity: 0;
+    }
+  }
+
+  &__item {
+    @apply ml-16 text-lg font-bold tracking-wider text-white;
+  }
+
+  &__toggle {
+    @apply transition-all duration-150 h-12 rounded-sm text-white flex-none outline-none;
+
+    &--visible {
+      @apply w-12 ml-10 opacity-100 bg-gray-800;
+    }
+    &--hidden {
+      width: 0;
+      opacity: 0;
+    }
+  }
+
+  &__icon {
+    @apply fill-current m-auto;
+
+    &--close {
+      @apply w-5 h-5;
+    }
+    &--burger {
+      @apply w-6 h-6;
+    }
+  }
 }
