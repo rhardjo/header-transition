@@ -1,32 +1,14 @@
-const tailwindcss = require('tailwindcss');
-const nestedcss = require('postcss-nested');
-
-const IS_DEV = process.env.NODE_ENV === 'development';
-
-const plugins = [tailwindcss, nestedcss];
-
-if (!IS_DEV) {
-  const purgecss = require('@fullhuman/postcss-purgecss');
-
-  class TailwindExtractor {
-    static extract(content) {
-      return content.match(/[A-z0-9-:\/]+/g) || [];
-    }
-  }
-
-  plugins.push(
-    purgecss({
-      content: ['src/*.html'],
-      extractors: [
-        {
-          extractor: TailwindExtractor,
-          extensions: ['html'],
-        },
-      ],
-    })
-  );
-}
+const IS_PROD = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  plugins: plugins,
+  plugins: [
+    require('tailwindcss'),
+    require('postcss-nested'),
+    require('autoprefixer'),
+    IS_PROD &&
+      require('@fullhuman/postcss-purgecss')({
+        content: ['./src/components/**/*.{js,jsx,css,pcss}'],
+        defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || [],
+      }),
+  ],
 };
